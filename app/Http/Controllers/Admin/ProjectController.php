@@ -58,10 +58,28 @@ class ProjectController extends Controller
 
         $newProject = new Project();
 
+        // here we have to check if the request has a file
+
         if ($request->hasFile('cover_image')) {
+
+            // now we have to move the file to the storage folder
             $path = Storage::put('project_images', $request->cover_image);
+
+            // then we have to store the path in the database
+            $formData['cover_image'] = $path;
+        }
+
+        /*
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('project_images', 'public');
+            $formData['cover_image'] = $path;
+        }
+
+        if ($request->hasFile('cover_image')) {
+            $path = Storage::disk('public')->put('project_images', $request->file('cover_image'));
             $formData['cover_image'] = $path;
         };
+        */
 
         // we use the fill method to fill the model with the data from the request, in the model we must specify the fillable attributes
         $newProject->fill($formData);

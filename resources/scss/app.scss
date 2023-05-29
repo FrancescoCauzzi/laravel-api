@@ -101,6 +101,14 @@ main {
     }
     .__content {
         width: 70%;
+        .__proj-image {
+            width: 50%;
+            img {
+                object-fit: contain;
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }
 
