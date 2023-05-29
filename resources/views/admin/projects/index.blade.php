@@ -3,26 +3,45 @@
 
 @section('content')
 
+@php
+function truncateText($text, $length = 30, $ending = '...')
+{
+    if (mb_strlen($text) <= $length) {
+        return $text;
+    }
+
+    $truncatedText = rtrim(mb_substr($text, 0, $length - mb_strlen($ending))) . $ending;
+    return $truncatedText;
+}
+@endphp
+
 <div class="container py-2">
     <h1 class="text-white">Here are all the projects</h1>
     <table class="text-white table">
         <thead>
             <th>Name</th>
             <th>Description</th>
-            <th>Slug</th>
+            <th>Image</th>
             <th>Type</th>
             <th>Technologies</th>
             <th>Repository</th>
             <th>Show</th>
             <th>Edit</th>
             <th>Delete</th>
+
         </thead>
         <tbody>
-            @foreach ($projects as $index => $project)
+            @foreach ($projects as $project)
+
+
             <tr>
                 <td>{{$project->name}}</td>
-                <td>{{$project->description}}</td>
-                <td>{{$project->slug}}</td>
+                <td>{{truncateText($project->description)}}</td>
+                @if ($project->cover_image)
+                <th>{{ truncateText($project->cover_image) }}</th>
+                @else
+                <th></th>
+                @endif
                 <td>{{$project->type?->name}}</td>
                 <td>
                     @foreach ($project->technologies as $tech)
@@ -92,6 +111,9 @@
                     </form> --}}
 
                 </td>
+
+
+
 
             </tr>
 
