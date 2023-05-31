@@ -25,4 +25,24 @@ class ProjectController extends Controller
             'results' => $projects,
         ]);
     }
+    public function show($slug)
+    {
+        // we are using the where method to find the project with the slug parameter
+        $project = Project::where('slug', $slug)->first();
+        // the same as doing:
+        // 'SELECT * FROM projects WHERE slug = $slug'
+
+        if ($project) {
+            // we return the project in json format
+            return response()->json([
+                'success' => true,
+                'project' => $project,
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => 'Project not found',
+            ]);
+        }
+    }
 }
