@@ -119,6 +119,7 @@ class ProjectController extends Controller
         if ($project->user_id == Auth::id()) {
             return view('admin.projects.show', compact('project'));
         } else {
+            // if the project belongs to a different user we redirect to the index page
             return redirect()->route('admin.projects.index');
         };
     }

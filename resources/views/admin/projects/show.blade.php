@@ -16,6 +16,10 @@
         <h5>Project Type:</h5>
         <span>{{ $project->type->name ?? 'not specified'}}</span>
     </div>
+    <div class="__proj-author">
+        <h5>Author</h5>
+        <span>{{ucwords($project->user->name)}}</span>
+    </div>
 
     @if (count($project->technologies) >0)
     <div class="__proj-tech">

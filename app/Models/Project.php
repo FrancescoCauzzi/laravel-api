@@ -24,4 +24,8 @@ class Project extends Model
         // each project can have multiple technologies (Technology entity here)
         return $this->belongsToMany(Technology::class);
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
