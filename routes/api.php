@@ -25,7 +25,8 @@ Route::get('test', function () {
     ]);
 });
 
+
 Route::get('projects', [ProjectController::class, 'index']);
 
-// we need to add slug to the route to get the project API route 
+// we need to add slug to the route to get the project API route
 Route::get('/projects/{slug}', [ProjectController::class, 'show']);

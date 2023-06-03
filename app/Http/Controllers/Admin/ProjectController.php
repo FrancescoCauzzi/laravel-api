@@ -10,6 +10,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 // Str support module import
@@ -26,7 +27,12 @@ class ProjectController extends Controller
     public function index()
     {
         // metodo statico che restituisce tutti i progetti del db
-        $projects = Project::all();
+        //$projects = Project::all();
+
+        // I get the id of the user logged in
+        $user_id = Auth::id();
+
+        $projects = Project::where('user_id', $user_id)->get();
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -84,6 +90,9 @@ class ProjectController extends Controller
         // we use the fill method to fill the model with the data from the request, in the model we must specify the fillable attributes
         $newProject->fill($formData);
 
+        //
+        $newProject->user_id = Auth::id();
+
         // Assign the slug value based on the 'name' attribute
         $newProject->slug = Str::slug($formData['name']);
 
@@ -106,7 +115,12 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        // if the project belongs to the user logged in we can show it otherwise we redirect to the index page
+        if ($project->user_id == Auth::id()) {
+            return view('admin.projects.show', compact('project'));
+        } else {
+            return redirect()->route('admin.projects.index');
+        };
     }
 
     /**
@@ -117,6 +131,11 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        // if the project belongs to the user logged in we can edit it otherwise we redirect to the index page
+        if ($project->user_id != Auth::id()) {
+            return redirect()->route('admin.projects.index');
+        };
+
         $types = Type::all();
         $technologies = Technology::all();
         return view('admin.projects.edit', compact('project', 'types', 'technologies'));
