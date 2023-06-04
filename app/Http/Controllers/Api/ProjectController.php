@@ -48,7 +48,7 @@ class ProjectController extends Controller
     }
     public function show($slug)
     {
-        // we are using the where method to find the project with the slug parameter
+        // we are using the where method to find the project with the slug parameter in the database
         $project = Project::where('slug', $slug)->with('type', 'technologies')->first();
         // the same as doing:
         // 'SELECT * FROM projects WHERE slug = $slug'
@@ -63,7 +63,7 @@ class ProjectController extends Controller
             // if the project is not found we return an error message in json format with the success message set to false
             return response()->json([
                 'success' => false,
-                'error' => 'Project not found',
+                'error' => 'The project does not exist',
             ]);
         }
     }
