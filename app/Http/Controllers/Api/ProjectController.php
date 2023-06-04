@@ -53,17 +53,14 @@ class ProjectController extends Controller
         // the same as doing:
         // 'SELECT * FROM projects WHERE slug = $slug'
 
-
-
         if ($project) {
-            // we return the project in json format
+            // we return the project in json format with the success message
             return response()->json([
                 'success' => true,
                 'project' => $project,
-
             ]);
         } else {
-            // if the project is not found we return an error message in json format
+            // if the project is not found we return an error message in json format with the success message set to false
             return response()->json([
                 'success' => false,
                 'error' => 'Project not found',
