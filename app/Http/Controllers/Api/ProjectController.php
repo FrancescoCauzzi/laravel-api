@@ -13,7 +13,6 @@ class ProjectController extends Controller
     {
         // return all the Projects in the database
         // $projects = Project::all();
-
         $requestData = $request->all();
 
         $types = Type::all();
@@ -25,6 +24,7 @@ class ProjectController extends Controller
                 ->orderBy('projects.created_at', 'desc')
                 ->paginate(2);
 
+            // if the projects is empty we return an error message in json format with the success message set to false
             if (count($projects) == 0) {
                 return response()->json([
                     'success' => false,
